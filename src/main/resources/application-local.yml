@@ -1,0 +1,87 @@
+spring:
+  datasource:
+    hikari:
+      username: oddi
+      password: "oddi1@#"
+      pool-name: oddiad-pool
+      max-lifetime: 12000
+      connection-test-query: select now()
+      minimum-idle: 2
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: "jdbc:log4jdbc:mysql://ls-a2834d111b7d0d1385ca4360b6718cf409b75eff.cvxedmimklz0.ap-northeast-2.rds.amazonaws.com:3306/oddi_ad?characterEncoding=utf8&useSSL=false"
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults=false: false
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+logging:
+  config: classpath:logback-console.xml
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+# timezone
+timezone: "Asia/Seoul"
+
+aws:
+  s3:
+    public:
+      bucket: "skd-s3"
+      video-dir: "/oddiad/adv/pre-convert"
+      adv_image-dir: "/oddiad/adv/image"
+      attachments-dir: "/oddiad/attachments"
+      private-dir: "/oddiad/business-license/private"
+      corporation-dir: "/oddiad/business-license/corporation"
+      url-host: "https://skd-s3.s3.ap-northeast-2.amazonaws.com"
+      region: ap-northeast-2
+
+surem:
+  host: "https://rest.surem.com/"
+  deptcode: 00-042-CX
+  usercode: nextnow77
+  # 대표 번호 적용 하려면 발신번호를 sureM 에 등록 해야됨
+  sender: "01051227638"
+
+inicis:
+  mid: "INIpayTest"
+  sign:
+    key: "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"
+  cancel:
+    url: "https://iniapi.inicis.com/api/v1/refund"
+  key: "ItEQKi3rY7uvDS8l"
+  site-url: "http://localhost:28090"
+  clientIp : "127.0.0.1"
+
+
+mustad:
+  federated:
+    auth: "https://dispatcher.dev.showit.sbcsvl.com/dispatcher/0.4/user/api/federatedauth"
+    my-content: "https://dispatcher.stage.showit.sbcsvl.com/dispatcher/0.4/discovery/api/searchresources?page=1&provider=SignageContent&resourcetype=Content.userboardlist"
+    userpool_id: "/us-west-2_Q3sEdUfZG"
+  kakao:
+    state: "oddi"
+    type: "code"
+    key: "c8a1741c7ccb3847e50ea4211328bd84"
+    oauth-host: "https://kauth.kakao.com"
+    api-host: "https://kapi.kakao.com"
+    oauth-authorize: "/oauth/authorize"
+    token-uri: "/oauth/token"
+    redirect-uri: "http://localhost:28090/user"
+    grant_type: "authorization_code"
+    aws:
+      auth: "https://p1tw8sp936.execute-api.us-west-2.amazonaws.com/Beta2/authorization"
+
+
+oddi:
+  host: "http://oddiad.nextnow.kr"

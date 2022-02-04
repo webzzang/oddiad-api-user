@@ -1,0 +1,77 @@
+spring:
+  datasource:
+    hikari:
+      username: ODDI_APP
+      password: "app21_oddiXX"
+      pool-name: oddiad-pool
+      max-lifetime: 12000
+      connection-test-query: select now()
+      minimum-idle: 2
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: "jdbc:mysql://rds-an2-oddiad-dev-mysql.ca3pv7invojs.ap-northeast-2.rds.amazonaws.com:3310/oddi?characterEncoding=utf8&useSSL=false"
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults=false: false
+logging:
+  config: classpath:logback-file.xml
+
+# timezone
+timezone: "Asia/Seoul"
+
+aws:
+  s3:
+    public:
+      bucket: "s3-an2-oddiad-dev"
+      video-dir: "/adv/pre-convert"
+      adv_image-dir: "/adv/image"
+      attachments-dir: "/attachments"
+      private-dir: "/business-license/private"
+      corporation-dir: "/business-license/corporation"
+      url-host: "https://resource.dev.oddiad.co.kr"
+      region: "ap-northeast-2"
+
+surem:
+  host: "https://rest.surem.com/"
+  deptcode: 00-042-CX
+  usercode: nextnow77
+  # 대표 번호 적용 하려면 발신번호를 sureM 에 등록 해야됨
+  sender: "01051227638"
+
+inicis:
+  mid: "INIpayTest"
+  sign:
+    key: "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"
+  cancel:
+    url: "https://iniapi.inicis.com/api/v1/refund"
+  key: "ItEQKi3rY7uvDS8l"
+  site-url: "http://oddiad-api.user.nextnow.kr"
+  clientIp : "3.34.232.47"
+
+mustad:
+  federated:
+    auth: "https://dispatcher.dev.showit.sbcsvl.com/dispatcher/0.4/user/api/federatedauth"
+    my-content: "https://dispatcher.dev.showit.sbcsvl.com/dispatcher/0.4/discovery/api/searchresources?page=1&provider=SignageContent&resourcetype=Content.userboardlist"
+    userpool_id: "/us-west-2_HccDDL7d2"
+  kakao:
+    state: "oddi"
+    type: "code"
+    key: "b6285db16701e71b2f4ca77f6ae6caa3"
+    oauth-host: "https://kauth.kakao.com"
+    api-host: "https://kapi.kakao.com"
+    oauth-authorize: "/oauth/authorize"
+    token-uri: "/oauth/token"
+    redirect-uri: "http://oddiad-api.user.nextnow.kr"
+    grant_type: "authorization_code"
+    aws:
+      auth: "https://p1tw8sp936.execute-api.us-west-2.amazonaws.com/Beta2/authorization"
+
+
+oddi:
+  host: "http://oddiad.nextnow.kr"

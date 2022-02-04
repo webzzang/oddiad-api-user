@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exflyer.oddi.user.api.my.dao.PaymentMngMapper">
+
+
+	<select id="findList" resultType="com.exflyer.oddi.user.api.my.dto.PaymentMngResult">
+		select p.seq as payment_seq
+				 , a.seq as adv_seq
+				 , ap.product_seq
+				 , (select sum(request_slot) from adv_partner adv_partner where adv_partner.adv_seq = p.adv_seq group by p.seq) as request_slot
+				 , a.reg_date, ppl.moid, CONCAT(ppl.appl_date, ppl.appl_time) as appl_date
+				 , p.channel_type
+				, (select name from code where code = a.channel_type) as channel_type_name
+				, case when ap.product_seq is null then p.adv_name else p.product_name end as adv_name
+				, a.business_type_code
+				, (select name from code where code = a.business_type_code) as business_type_name
+				, p.adv_start_date, p.adv_end_date
+				, pro.name as coupon_name
+				, ppl.pay_method
+				, ppl.price
+				, ppl.result_code
+				, ppl.pg_payment_type
+		from payment p
+		left join pg_payment_log ppl on p.seq = ppl.payment_seq
+		left join adv a on p.adv_seq = a.seq
+		left join adv_product ap on a.seq = ap.adv_seq
+		left join promotion_coupon pc on a.coupon_number = pc.coupon_code
+		left join promotion pro on pc.promotion_seq = pro.seq
+		where p.member_id = #{memberId}
+		order by p.reg_date desc
+	</select>
+
+	<select id="findPartnerList" resultType="com.exflyer.oddi.user.api.my.dto.OddiMngPartner">
+		select a.seq as adv_seq,p.seq as partner_seq, p.mall_name, ap.request_slot
+		from adv a
+		inner join adv_partner ap on a.seq = ap.adv_seq
+		inner join partner p on ap.partner_seq = p.seq
+		where a.member_id = #{memberId}
+		and a.seq = #{advSeq}
+	</select>
+
+	<select id="findProductPartnerList" resultType="com.exflyer.oddi.user.api.my.dto.OddiMngPartner">
+		select a.seq as adv_seq, pp.product_seq, p.seq as partner_seq, p.mall_name, ap.request_slot
+		from adv a
+		inner join adv_partner ap on a.seq = ap.adv_seq
+		inner join product_partner pp on ap.partner_seq = pp.partner_seq
+		inner join partner p on pp.partner_seq = p.seq
+		where a.member_id = #{memberId}
+		and a.seq = #{advSeq}
+		and pp.product_seq  = #{productSeq}
+	</select>
+
+
+</mapper>
